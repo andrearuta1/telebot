@@ -154,7 +154,7 @@ db.mongoose.connect(db.url, {
 
 bot.launch({
 	webhook: {
-	  domain: 'https://telebot12345stellone.herokuapp.com',
+	  domain: 'https://sore-underwear-cod.cyclic.app',
 	  port: process.env.PORT || 3000
 	}
 });
