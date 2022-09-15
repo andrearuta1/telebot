@@ -154,7 +154,7 @@ db.mongoose.connect(db.url, {
 
 bot.launch({
 	webhook: {
-	  domain: 'https://telebot1234stellone.herokuapp.com',
+	  domain: 'https://telebot12345stellone.herokuapp.com',
 	  port: process.env.PORT || 3000
 	}
 });
