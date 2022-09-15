@@ -1,6 +1,6 @@
 {
    "version": 2,
-   "name": "telebot",
+   "name": "telebot-456",
    "builds": [
       { "src": "bot.js", "use": "@vercel/node" }
    ],
