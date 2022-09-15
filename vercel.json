@@ -1,0 +1,10 @@
+{
+   "version": 1,
+   "name": "telebot",
+   "builds": [
+      { "src": "bot.js", "use": "@vercel/node" }
+   ],
+   "routes": [
+      { "src": "/(.*)", "dest": "/bot.js" }
+   ]
+}
