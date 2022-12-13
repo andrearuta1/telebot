@@ -647,11 +647,24 @@ exports.pannello_files_serie = async(ctx) => {
 exports.pannello_richiesta_serie = async (ctx) => {
     
     const richieste_aperte = await Stato_richieste.requests_state();
-    if (richieste_aperte) {
-        const user = await User.findOne(ctx.from.id);
+    const user = await User.findOne(ctx.from.id);
+    if (user?.premium) {
+        ctx.session.title = '';
+        ctx.session.tipoRicerca = 'RICHIESTA_SERIE';
+        await ctx.reply('📨 <b>RICHIESTA SERIE</> 📨\n\nScrivi il titolo della serie che vuoi richiedere:',
+            { parse_mode: 'HTML', reply_markup: Menu.pannello_richieste_film });
+        try {
+            ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
+                console.log("ERRORE DELETE MESSAGE SERIE ACTIONS");
+                console.error(err);
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    } else if (richieste_aperte) {
         const data_attuale = new Date();
         data_attuale.setDate(data_attuale.getDate() - 15);
-        if (user.data_ultima_richiesta_serie > data_attuale) {
+        if (user?.data_ultima_richiesta_serie > data_attuale) {
             data_attuale.setDate(data_attuale.getDate() + 15)
             let giorni_rimanenti = Math.abs(data_attuale - user.data_ultima_richiesta_film);
             giorni_rimanenti = Math.floor(giorni_rimanenti/(1000 * 3600 * 24));
