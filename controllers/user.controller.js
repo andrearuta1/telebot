@@ -136,3 +136,15 @@ exports.bannedList = async () => {
 	})
 	return result;
 }
+
+// Restituisce il numero di utenti premium
+exports.premiumCount = async () => {
+	const result = await User.count({ premium: true }).then((count) => {
+		if (count) return count;
+		else return 0;
+	}).catch((err) => {
+		console.error(err);
+		return '?'
+	})
+	return result;
+}
