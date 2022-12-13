@@ -46,12 +46,14 @@ exports.pannello_statistiche = async (ctx) => {
     let userCount = await User.count();
     let bannedCount = await User.bannedCount();
     let warnedCount = await User.warnedCount();
+    let premiumCount = await User.premiumCount();
     let bot = await Bot.find();
 
     ctx.reply(
         `📊 *STATISTICHE BOT* 📊\n\n🎬 Film disponibili: *${movieCount}*\n📺 Serie disponibili: *${serieCount}*\n\n`
             + `🏂 Utenti totali: *${userCount}*\n⚠️ Utenti warnati: *${warnedCount}*\n`
-            + `🚷 Utenti bannati: *${bannedCount}*\n\n`
+            + `🚷 Utenti bannati: *${bannedCount}*\n`
+            + `🌟 Utenti premium: *${premiumCount}*\n\n`
             + `📨 Richieste film: *${bot.richieste_film}* 🎬\n📨 Richieste film SUB-ITA: *${bot.richieste_film_sub_ita}* 🈂️\n`
             + `📨 Richieste serie TV: *${bot.richieste_serie}* 📺`,
         {
