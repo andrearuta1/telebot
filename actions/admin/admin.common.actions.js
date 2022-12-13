@@ -59,7 +59,7 @@ exports.pannello_statistiche = async (ctx) => {
         {
             parse_mode: 'Markdown',
             reply_markup: { inline_keyboard: [
-                [{ text: '⚠️ Report warn utenti ⚠️', callback_data: 'WARN_REPORT' }],
+                // [{ text: '⚠️ Report warn utenti ⚠️', callback_data: 'WARN_REPORT' }],
                 [{ text: '🚷 Lista bannati 🚷', callback_data: 'BANNED_REPORT' }],
                 [ Buttons.indietro('PANNELLO_ADMIN') ]
             ]}
@@ -71,33 +71,33 @@ exports.pannello_statistiche = async (ctx) => {
     });
 }
 
-exports.warn_report = async (ctx) => {
-    let warnedList = await User.warnedList();
-    let lista = '';
+// exports.warn_report = async (ctx) => {
+//     let warnedList = await User.warnedList();
+//     let lista = '';
 
-    if (warnedList.length > 0) {
-        warnedList.forEach((currentUser) => {
-            lista += '\n' + (currentUser.username ? currentUser.username : currentUser.chat_id)
-                + ' ---> <b>' + currentUser.ammonizioni + '</>';
-        });
-    } else {
-        lista = '\nNon ci sono utenti warnati.';
-    }
+//     if (warnedList.length > 0) {
+//         warnedList.forEach((currentUser) => {
+//             lista += '\n' + (currentUser.username ? currentUser.username : currentUser.chat_id)
+//                 + ' ---> <b>' + currentUser.ammonizioni + '</>';
+//         });
+//     } else {
+//         lista = '\nNon ci sono utenti warnati.';
+//     }
 
-    ctx.reply(
-        `⚠️ <b>LISTA WARN</> ⚠️\n` + lista,
-        {
-            parse_mode: 'HTML',
-            reply_markup: { inline_keyboard: [
-                [ Buttons.indietro('PANNELLO_STATISTICHE') ]
-            ]}
-        }
-    );
-    ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
-        console.log("ERRORE DELETE MESSAGE PANNELLO WARN REPORT");
-        console.error(err);
-    });
-}
+//     ctx.reply(
+//         `⚠️ <b>LISTA WARN</> ⚠️\n` + lista,
+//         {
+//             parse_mode: 'HTML',
+//             reply_markup: { inline_keyboard: [
+//                 [ Buttons.indietro('PANNELLO_STATISTICHE') ]
+//             ]}
+//         }
+//     );
+//     ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
+//         console.log("ERRORE DELETE MESSAGE PANNELLO WARN REPORT");
+//         console.error(err);
+//     });
+// }
 
 exports.banned_report = async (ctx) => {
     let bannedList = await User.bannedList();
@@ -419,6 +419,7 @@ exports.pannello_aggiungi_premium_richiesta_id = async (ctx) => {
 // pannello di risposta all'aggiunta di un utente premium
 exports.pannello_aggiungi_premium = async (ctx) => {
     User.update(ctx.update.message.text, { premium: true }).then(async (user) => {
+        console.log(user);
         if (user) {
             await ctx.reply('🌟 *UTENTI PREMIUM* 🌟\n\n✅L\'utente è stato *PROMOSSO A PREMIUM* correttamente.',
                 { parse_mode: 'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
@@ -427,7 +428,7 @@ exports.pannello_aggiungi_premium = async (ctx) => {
                 { parse_mode:'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
         }
     }).catch(async (err) => {
-        console.error(err);
+        console.error("Aggiungi premium error: ", err);
         await ctx.reply('❌ *ERRORE* ❌\n\nSi è verificato un errore. Riprovare.',
             { parse_mode:'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
     })
