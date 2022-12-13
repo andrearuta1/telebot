@@ -48,9 +48,9 @@ module.exports = {
                     [ 
                         { text: '🧙‍♂️ Gestione utenti 🧙‍♂️', callback_data: 'PANNELLO_GESTIONE_UTENTI' },
                     ],
-                    [ 
-                        { text: '🗞 Riepilogo aggiunte 🗞', callback_data: 'INVIA_RIEPILOGO_GIORNATA' },
-                    ],
+                    // [ 
+                    //     { text: '🗞 Riepilogo aggiunte 🗞', callback_data: 'INVIA_RIEPILOGO_GIORNATA' },
+                    // ],
                     [ Buttons.cambia_stato_richieste(stato_richieste) ],
                     [ Buttons.indietro('PANNELLO_BENVENUTO') ]
                 ]
@@ -66,9 +66,9 @@ module.exports = {
                     [ 
                         { text: '🧙‍♂️ Gestione utenti 🧙‍♂️', callback_data: 'PANNELLO_GESTIONE_UTENTI' },
                     ],
-                    [ 
-                        { text: '🗞 Riepilogo aggiunte 🗞', callback_data: 'INVIA_RIEPILOGO_GIORNATA' },
-                    ],
+                    // [ 
+                    //     { text: '🗞 Riepilogo aggiunte 🗞', callback_data: 'INVIA_RIEPILOGO_GIORNATA' },
+                    // ],
                     [ Buttons.cambia_stato_richieste(stato_richieste) ],
                     [ Buttons.indietro('PANNELLO_BENVENUTO') ]
                 ]
