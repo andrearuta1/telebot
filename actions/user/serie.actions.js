@@ -704,7 +704,8 @@ exports.pannello_richiesta_serie = async (ctx) => {
 // risultati ricerca film per titolo
 exports.pannello_risultati_richiesta_serie = async (ctx) => {
     const richieste_aperte = await Stato_richieste.requests_state();
-    if (richieste_aperte) {
+    const user = await User.findOne(ctx.from.id);
+    if (richieste_aperte || user?.premium) {
         try {
             if (!ctx.session.title) {
                 ctx.session.title = ctx.update.message.text;
@@ -804,7 +805,8 @@ exports.pannello_risultati_richiesta_serie = async (ctx) => {
 // locandina TMDB se presente
 exports.pannello_locandina_richiesta_serie = async (ctx) => {
     const richieste_aperte = await Stato_richieste.requests_state();
-    if (richieste_aperte) {
+    const user = await User.findOne(ctx.from.id);
+    if (richieste_aperte || user?.premium) {
         // se il film è salvato nella sessione, non rifaccio la ricerca
         
         const serieId = ctx.update.callback_query.data.split(' ')[1];
@@ -854,7 +856,8 @@ exports.pannello_locandina_richiesta_serie = async (ctx) => {
 exports.pannello_richiesta_inviata = async (ctx, serie_non_presente) => {
     const richieste_aperte = await Stato_richieste.requests_state();
     try {
-        if (richieste_aperte) {
+        const user = await User.findOne(ctx.from.id);
+        if (richieste_aperte || user?.premium) {
             const username = ctx.from.username ? '@' + ctx.from.username : '';
             const inizio_message = 'Richiesta da: ' + username + ' [' + ctx.from.id + ']\n\n';
             if (serie_non_presente) {
