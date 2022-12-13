@@ -632,41 +632,62 @@ exports.pannello_richieste = async (ctx) => {
             console.error(err);
         }
     } else {
-        const data_attuale = new Date();
-        const data_ultima_richiesta = user.data_ultima_richiesta_film > user.data_ultima_richiesta_serie ?
-            user.data_ultima_richiesta_film : user.data_ultima_richiesta_serie;
-        let giorni_rimanenti = Math.abs(data_attuale - data_ultima_richiesta);
-        giorni_rimanenti = 30 - Math.floor(giorni_rimanenti/(1000 * 3600 * 24));
-        if (user.ammonizioni >= 3 && giorni_rimanenti > 0) {  
-            ctx.answerCbQuery("‼️ SOSPESO ‼️\n\nHai ricevuto 3 ammonizioni e ti è stata revocata la possibilità di fare richieste per un mese.\n\n"
-                + "Mancano ancora " + giorni_rimanenti + " giorni.",
-                {show_alert: true}).catch((err) => { console.error(err); });
-        } else {
-            if (giorni_rimanenti < 0) {
-                User.update(ctx.from.id, { ammonizioni: 0 })
-            }
-            const richieste_aperte = await Stato_richieste.requests_state();
-            if (richieste_aperte) {
-                await ctx.reply('⚠️ *REGOLAMENTO RICHIESTE* ⚠️\n\n'
-                    + "⛔ NON SI RICHIEDONO FILM APPENA USCITI AL CINEMA (devono passare 2 mesi prima di richiederli perché noi puntiamo sulla QUALITÀ).\n"
-                    + "⛔  Il titolo di ciò che cerchi deve essere corretto oltre che essere già uscito in Italia.\n"
-                    + "⛔  I film in LINGUA ORIGINALE si possono richiedere SOLO sub-ita.\n\n"
-                    + "⛔ Non si possono richiedere serie in lingua originale.\n"
-                    + "⛔ Non si possono richiedere serie in corso.\n"
-                    + "⛔ Non si possono richiedere serie animate/cartoni animati.\n"
-                    + "⛔ Non si possono richiedere singole stagioni.\n\n"
-                    + "‼️ *Prima di fare una richiesta controlla se ciò che cerchi è già presente* ‼️",
-                    { parse_mode: 'Markdown', reply_markup: Menu.pannello_richieste });
-                try {
-                    ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
-                        console.log("ERRORE DELETE MESSAGE MOVIE ACTIONS");
-                        console.error(err);
-                    });
-                } catch (err) {
+        if (user.premium) {
+            await ctx.reply('⚠️ *REGOLAMENTO RICHIESTE* ⚠️\n\n'
+                + "⛔ NON SI RICHIEDONO FILM APPENA USCITI AL CINEMA (devono passare 2 mesi prima di richiederli perché noi puntiamo sulla QUALITÀ).\n"
+                + "⛔  Il titolo di ciò che cerchi deve essere corretto oltre che essere già uscito in Italia.\n"
+                + "⛔  I film in LINGUA ORIGINALE si possono richiedere SOLO sub-ita.\n\n"
+                + "⛔ Non si possono richiedere serie in lingua originale.\n"
+                + "⛔ Non si possono richiedere serie in corso.\n"
+                + "⛔ Non si possono richiedere serie animate/cartoni animati.\n"
+                + "⛔ Non si possono richiedere singole stagioni.\n\n"
+                + "‼️ *Prima di fare una richiesta controlla se ciò che cerchi è già presente* ‼️",
+                { parse_mode: 'Markdown', reply_markup: Menu.pannello_richieste });
+            try {
+                ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
+                    console.log("ERRORE DELETE MESSAGE MOVIE ACTIONS");
                     console.error(err);
-                }
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        } else {
+            const data_attuale = new Date();
+            const data_ultima_richiesta = user.data_ultima_richiesta_film > user.data_ultima_richiesta_serie ?
+                user.data_ultima_richiesta_film : user.data_ultima_richiesta_serie;
+            let giorni_rimanenti = Math.abs(data_attuale - data_ultima_richiesta);
+            giorni_rimanenti = 30 - Math.floor(giorni_rimanenti/(1000 * 3600 * 24));
+            if (user.ammonizioni >= 3 && giorni_rimanenti > 0) {  
+                ctx.answerCbQuery("‼️ SOSPESO ‼️\n\nHai ricevuto 3 ammonizioni e ti è stata revocata la possibilità di fare richieste per un mese.\n\n"
+                    + "Mancano ancora " + giorni_rimanenti + " giorni.",
+                    {show_alert: true}).catch((err) => { console.error(err); });
             } else {
-                ctx.answerCbQuery("‼️ Al momento le richieste sono chiuse. ‼️", {show_alert: true}).catch((err) => { console.error(err); });
+                if (giorni_rimanenti < 0) {
+                    User.update(ctx.from.id, { ammonizioni: 0 })
+                }
+                const richieste_aperte = await Stato_richieste.requests_state();
+                if (richieste_aperte) {
+                    await ctx.reply('⚠️ *REGOLAMENTO RICHIESTE* ⚠️\n\n'
+                        + "⛔ NON SI RICHIEDONO FILM APPENA USCITI AL CINEMA (devono passare 2 mesi prima di richiederli perché noi puntiamo sulla QUALITÀ).\n"
+                        + "⛔  Il titolo di ciò che cerchi deve essere corretto oltre che essere già uscito in Italia.\n"
+                        + "⛔  I film in LINGUA ORIGINALE si possono richiedere SOLO sub-ita.\n\n"
+                        + "⛔ Non si possono richiedere serie in lingua originale.\n"
+                        + "⛔ Non si possono richiedere serie in corso.\n"
+                        + "⛔ Non si possono richiedere serie animate/cartoni animati.\n"
+                        + "⛔ Non si possono richiedere singole stagioni.\n\n"
+                        + "‼️ *Prima di fare una richiesta controlla se ciò che cerchi è già presente* ‼️",
+                        { parse_mode: 'Markdown', reply_markup: Menu.pannello_richieste });
+                    try {
+                        ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
+                            console.log("ERRORE DELETE MESSAGE MOVIE ACTIONS");
+                            console.error(err);
+                        });
+                    } catch (err) {
+                        console.error(err);
+                    }
+                } else {
+                    ctx.answerCbQuery("‼️ Al momento le richieste sono chiuse. ‼️", {show_alert: true}).catch((err) => { console.error(err); });
+                }
             }
         }
     }
@@ -678,11 +699,24 @@ exports.pannello_richieste = async (ctx) => {
 // pannello richieste film [SUB-ITA]
 exports.pannello_richiesta_film_SUB_ITA = async (ctx) => {
     const richieste_aperte = await Stato_richieste.requests_state();
-    if (richieste_aperte) {
-        const user = await User.findOne(ctx.from.id);
+    const user = await User.findOne(ctx.from.id);
+    if (user?.premium) {
+        ctx.session.title = '';
+            ctx.session.tipoRicerca = 'RICHIESTA_FILM';
+            await ctx.reply('📨 <b>RICHIESTA FILM</> 📨\n\nScrivi il titolo del film che vuoi richiedere:',
+                { parse_mode: 'HTML', reply_markup: Menu.pannello_richieste_film });
+            try {
+                ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
+                    console.log("ERRORE DELETE MESSAGE MOVIE ACTIONS");
+                    console.error(err);
+                });
+            } catch (err) {
+                console.error(err);
+            }
+    } else if (richieste_aperte) {
         const data_attuale = new Date();
         data_attuale.setDate(data_attuale.getDate() - 15);
-        if (user.data_ultima_richiesta_film > data_attuale) {
+        if (user?.data_ultima_richiesta_film > data_attuale) {
             data_attuale.setDate(data_attuale.getDate() + 15)
             let giorni_rimanenti = Math.abs(data_attuale - user.data_ultima_richiesta_film);
             giorni_rimanenti = Math.floor(giorni_rimanenti/(1000 * 3600 * 24));
@@ -723,11 +757,24 @@ exports.pannello_richiesta_film_SUB_ITA = async (ctx) => {
 // pannello richieste film
 exports.pannello_richiesta_film = async (ctx) => {
     const richieste_aperte = await Stato_richieste.requests_state();
-    if (richieste_aperte) {
-        const user = await User.findOne(ctx.from.id);
+    const user = await User.findOne(ctx.from.id);
+    if (user?.premium) {
+        ctx.session.title = '';
+            ctx.session.tipoRicerca = 'RICHIESTA_FILM';
+            await ctx.reply('📨 <b>RICHIESTA FILM</> 📨\n\nScrivi il titolo del film che vuoi richiedere:',
+                { parse_mode: 'HTML', reply_markup: Menu.pannello_richieste_film });
+            try {
+                ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
+                    console.log("ERRORE DELETE MESSAGE MOVIE ACTIONS");
+                    console.error(err);
+                });
+            } catch (err) {
+                console.error(err);
+            }
+    } else if (richieste_aperte) {
         const data_attuale = new Date();
         data_attuale.setDate(data_attuale.getDate() - 15);
-        if (user.data_ultima_richiesta_film > data_attuale) {
+        if (user?.data_ultima_richiesta_film > data_attuale) {
             data_attuale.setDate(data_attuale.getDate() + 15)
             let giorni_rimanenti = Math.abs(data_attuale - user.data_ultima_richiesta_film);
             giorni_rimanenti = Math.floor(giorni_rimanenti/(1000 * 3600 * 24));
