@@ -1058,6 +1058,9 @@ exports.risposta_richiesta = async (ctx, risposta) => {
             ctx.answerCbQuery('Richiesta ricevuta da più di 48 ore. Cancella manualmente il messaggio.', {show_alert: true});
         }
     }
+    if (user.premium) {
+        User.update(user_chat_id, { ammonizioni: 0 });
+    }
              
 }
 
