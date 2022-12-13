@@ -163,6 +163,12 @@ module.exports = (bot) => {
             case 'UNBAN_UTENTE':
                 adminCommonActions.unban_utente(ctx);
                 break;
+            case 'AGGIUNGI_PREMIUM':
+                adminCommonActions.pannello_aggiungi_premium(ctx);
+                break;
+            case 'RIMUOVI_PREMIUM':
+                adminCommonActions.pannello_rimuovi_premium(ctx);
+                break;
 
                 /*      ADMIN - FILM       */
 
