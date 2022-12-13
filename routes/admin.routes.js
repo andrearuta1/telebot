@@ -107,7 +107,7 @@ module.exports = (bot) => {
         });
     });
 
-    bot.action('PANNELLO_AGGIUNGI_PREMIUM', commonActions.pannello_aggiungi_premium).catch((err, ctx) => {
+    bot.action('PANNELLO_AGGIUNGI_PREMIUM', commonActions.pannello_aggiungi_premium_richiesta_id).catch((err, ctx) => {
         console.error(err);
         ctx.reply( '‼️ *ERRORE* ‼️\n\nCi scusiamo, si è verificato un errore. Riprova.',
             { parse_mode: 'Markdown', reply_markup: { inline_keyboard : [[ Buttons.pannello_HOME ]]}}).catch((err) => {
@@ -116,7 +116,7 @@ module.exports = (bot) => {
         });
     });
 
-    bot.action('PANNELLO_RIMUOVI_PREMIUM', commonActions.pannello_rimuovi_premium).catch((err, ctx) => {
+    bot.action('PANNELLO_RIMUOVI_PREMIUM', commonActions.pannello_rimuovi_premium_richiesta_id).catch((err, ctx) => {
         console.error(err);
         ctx.reply( '‼️ *ERRORE* ‼️\n\nCi scusiamo, si è verificato un errore. Riprova.',
             { parse_mode: 'Markdown', reply_markup: { inline_keyboard : [[ Buttons.pannello_HOME ]]}}).catch((err) => {
