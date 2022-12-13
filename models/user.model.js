@@ -2,14 +2,15 @@ module.exports = (mongoose) => {
 
 	const schema = mongoose.Schema({
 			nome: String,
-            data_ultima_richiesta_film: Date,
-            data_ultima_richiesta_serie: Date,
-            film_visti: Number,
-            serie_viste: Number,
+			data_ultima_richiesta_film: Date,
+			data_ultima_richiesta_serie: Date,
+			film_visti: Number,
+			serie_viste: Number,
 			ammonizioni: Number,
-            chat_id: Number,
+			chat_id: Number,
 			username: String,
-			banned: Boolean
+			banned: Boolean,
+			premium: Boolean
 		},
 		{ timestamps: true }
 	);
