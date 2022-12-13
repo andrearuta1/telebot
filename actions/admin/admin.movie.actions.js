@@ -1061,6 +1061,9 @@ exports.risposta_richiesta = async (ctx, risposta) => {
                 });
             }
         }
+        if (user.premium) {
+            User.update(user_chat_id, { ammonizioni: 0 });
+        }
     } catch (err) {
         console.log("ERRORE RISPOSTA RICHIESTA FILM");
         console.error(err);
