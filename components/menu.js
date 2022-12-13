@@ -85,7 +85,16 @@ module.exports = {
             [ { text: '⛑ Togli 1 WARN ⛑', callback_data: 'PANNELLO_DIMINUISCI_WARN'}],
             [ { text: '👻 Sbanna utente 👻', callback_data: 'PANNELLO_UNBAN_UTENTE'}],
             [ { text: '🖕🏻 Banna utente 🖕🏻', callback_data: 'PANNELLO_BANNA_UTENTE' } ],
+            [ { text: '🌟 Premium 🌟', callback_data: 'PANNELLO_UTENTI_PREMIUM' } ],
             [ Buttons.indietro('PANNELLO_ADMIN') ]
+        ]
+    },
+
+    pannello_utenti_premium: {
+        inline_keyboard: [
+            [ { text: '➕ Aggiungi utente premium ➕', callback_data: 'PANNELLO_AGGIUNGI_PREMIUM'}],
+            [ { text: '❌ Rimuovi utente premium ❌', callback_data: 'PANNELLO_RIMUOVI_PREMIUM'}],
+            [ Buttons.indietro('PANNELLO_GESTIONE_UTENTI') ]
         ]
     },
 
