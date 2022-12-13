@@ -98,8 +98,32 @@ module.exports = (bot) => {
         });
     });
 
+    bot.action('PANNELLO_UTENTI_PREMIUM', commonActions.pannello_utenti_premium).catch((err, ctx) => {
+        console.error(err);
+        ctx.reply( '‼️ *ERRORE* ‼️\n\nCi scusiamo, si è verificato un errore. Riprova.',
+            { parse_mode: 'Markdown', reply_markup: { inline_keyboard : [[ Buttons.pannello_HOME ]]}}).catch((err) => {
+            console.log("ERRORE REPLY ERRORE ADMIN ROUTES");
+            console.error(err);
+        });
+    });
 
+    bot.action('PANNELLO_AGGIUNGI_PREMIUM', commonActions.pannello_aggiungi_premium).catch((err, ctx) => {
+        console.error(err);
+        ctx.reply( '‼️ *ERRORE* ‼️\n\nCi scusiamo, si è verificato un errore. Riprova.',
+            { parse_mode: 'Markdown', reply_markup: { inline_keyboard : [[ Buttons.pannello_HOME ]]}}).catch((err) => {
+            console.log("ERRORE REPLY ERRORE ADMIN ROUTES");
+            console.error(err);
+        });
+    });
 
+    bot.action('PANNELLO_RIMUOVI_PREMIUM', commonActions.pannello_rimuovi_premium).catch((err, ctx) => {
+        console.error(err);
+        ctx.reply( '‼️ *ERRORE* ‼️\n\nCi scusiamo, si è verificato un errore. Riprova.',
+            { parse_mode: 'Markdown', reply_markup: { inline_keyboard : [[ Buttons.pannello_HOME ]]}}).catch((err) => {
+            console.log("ERRORE REPLY ERRORE ADMIN ROUTES");
+            console.error(err);
+        });
+    });
 
 
     /*          CAMBIA STATO RICHIESTE          */
