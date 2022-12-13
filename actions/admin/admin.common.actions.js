@@ -391,6 +391,112 @@ exports.unban_utente = async (ctx) => {
     ctx.session.tipoRicerca = '';
 }
 
+// pannello per la gestione di utenti premium
+exports.pannello_utenti_premium = async (ctx) => {
+    await ctx.reply('🌟 *UTENTI PREMIUM* 🌟\n\nAggiungi o rimuovi utenti premium:',
+        { parse_mode: 'Markdown', reply_markup: Menu.pannello_utenti_premium });
+    await ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
+        console.log("ERRORE DELETE MESSAGE PANNELLO UTENTI PREMIUM");
+        console.error(err);
+    });
+}
+
+/*        AGGIUNGI PREMIUM          */
+
+// pannello in cui viene chiesto di aggiungere un utente premium
+exports.pannello_aggiungi_premium_richiesta_id = async (ctx) => {
+    await ctx.reply('🌟 *UTENTI PREMIUM* 🌟\n\nScrivi l\'id o l\'username dell\'utente che vuoi *PROMUOVERE A PREMIUM*...',
+        { parse_mode: 'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
+    await ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
+        console.log("ERRORE DELETE MESSAGE PANNELLO AGGIUNGI PREMIUM");
+        console.error(err);
+    });
+    ctx.session.tipoRicerca = 'AGGIUNGI_PREMIUM';
+}
+
+// pannello di risposta all'aggiunta di un utente premium
+exports.pannello_aggiungi_premium = async (ctx) => {
+    User.update(ctx.update.message.text, { premium: true }).then(async (user) => {
+        if (user) {
+            await ctx.reply('🌟 *UTENTI PREMIUM* 🌟\n\n✅L\'utente è stato *PROMOSSO A PREMIUM* correttamente.',
+                { parse_mode: 'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
+        } else {
+            await ctx.reply('❌ *ERRORE* ❌\n\nL\'utente non è stato trovato. Riprovare.',
+                { parse_mode:'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
+        }
+    }).catch(async (err) => {
+        console.error(err);
+        await ctx.reply('❌ *ERRORE* ❌\n\nSi è verificato un errore. Riprovare.',
+            { parse_mode:'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
+    })
+    const id_messaggio = ctx.update.message.message_id - 1;
+    try {
+        await ctx.deleteMessage(id_messaggio).catch((err) => {
+            console.log("ERRORE DELETE MESSAGE AGGIUNGI PREMIUM");
+            console.error(err);
+        });
+    } catch (err) {
+        console.error(err);
+    }
+    try {
+        ctx.deleteMessage(ctx.update.message.message_id).catch((err) => {
+            console.log("ERRORE DELETE MESSAGE AGGIUNGI PREMIUM");
+            console.error(err);
+        });
+    } catch (err) {
+        console.error(err);
+    }
+    ctx.session.tipoRicerca = '';
+}
+
+/*        RIMUOVI PREMIUM          */
+
+// pannello in cui viene chiesto di rimuovere un utente premium
+exports.pannello_rimuovi_premium_richiesta_id = async (ctx) => {
+    await ctx.reply('🌟 *UTENTI PREMIUM* 🌟\n\nScrivi l\'id o l\'username dell\'utente che vuoi *RIMUOVERE DA PREMIUM*...',
+        { parse_mode: 'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
+    await ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
+        console.log("ERRORE DELETE MESSAGE PANNELLO RIMUOVI PREMIUM");
+        console.error(err);
+    });
+    ctx.session.tipoRicerca = 'RIMUOVI_PREMIUM';
+}
+
+// pannello di risposta alla rimozione di un utente premium
+exports.pannello_rimuovi_premium = async (ctx) => {
+    User.update(ctx.update.message.text, { premium: false }).then(async (user) => {
+        if (user) {
+            await ctx.reply('🌟 *UTENTI PREMIUM* 🌟\n\n✅L\'utente è stato *RIMOSSO DA PREMIUM* correttamente.',
+                { parse_mode: 'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
+        } else {
+            await ctx.reply('❌ *ERRORE* ❌\n\nL\'utente non è stato trovato. Riprovare.',
+                { parse_mode:'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
+        }
+    }).catch(async (err) => {
+        console.error(err);
+        await ctx.reply('❌ *ERRORE* ❌\n\nSi è verificato un errore. Riprovare.',
+            { parse_mode:'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
+    })
+    const id_messaggio = ctx.update.message.message_id - 1;
+    try {
+        await ctx.deleteMessage(id_messaggio).catch((err) => {
+            console.log("ERRORE DELETE MESSAGE RIMUOVI PREMIUM");
+            console.error(err);
+        });
+    } catch (err) {
+        console.error(err);
+    }
+    try {
+        ctx.deleteMessage(ctx.update.message.message_id).catch((err) => {
+            console.log("ERRORE DELETE MESSAGE RIMUOVI PREMIUM");
+            console.error(err);
+        });
+    } catch (err) {
+        console.error(err);
+    }
+    ctx.session.tipoRicerca = '';
+}
+
 /*          SUPER ADMIN         */
 
 // pannello super admin
