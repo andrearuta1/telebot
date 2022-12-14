@@ -23,10 +23,22 @@ exports.start = async (ctx) => {
         }
         // cerca utente nel db, se non è presente lo crea
         User.create(ctx.from.id, ctx.from.first_name, ctx.from.username);
+        const user = User.findOne(ctx.from.id);
+        
+        let premiumStatus = "";
+        
+        if (user && User.isPremium(user)) {
+            if (user.premium) {
+                premiumStatus = `\n🌟Utente <b>PREMIUM</>\n`;
+            } else {
+                const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
+                premiumStatus = `\n🌟Utente <b>PREMIUM</> fino a: ${utente.data_data_premium_mensile.toLocaleString('it-IT', options)}\n`;
+            }
+        }
     
         await ctx.reply(
-            `👋🏻 Benvenut* ${ctx.from.first_name} 👋🏻\n\n🎬 Film disponibili: <b>${movieCount}</>\n📺 Serie disponibili: <b>${serieCount}</>\n
-            \n↘️ SELEZIONA UN'OPZIONE: ↙️`,
+            `👋🏻 Benvenut* ${ctx.from.first_name} 👋🏻\n\n🎬 Film disponibili: <b>${movieCount}</>\n📺 Serie disponibili: <b>${serieCount}</>\n`
+            + premiumStatus + `\n↘️ SELEZIONA UN'OPZIONE: ↙️`,
             {
                 parse_mode: 'HTML',
                 reply_markup: isAdmin ? Menu.pannello_benvenuto_admin : Menu.pannello_benvenuto
