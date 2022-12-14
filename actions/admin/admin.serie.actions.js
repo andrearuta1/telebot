@@ -982,49 +982,62 @@ exports.risposta_richiesta = async (ctx, risposta) => {
             request_result = '❌ Risposta <b>\'SERIE NON TROVATA\'</> da: ';
             break;
         case 'postata':
-            if (user.ammonizioni == 2) {
-                user.ammonizioni += 1;
-                response_message = `❌ Abbiamo già postato la serie: <b>'${titolo}'</>\n\n`
-                    + '‼️<b>AMMONITO</>‼️\n\nQuesta è la tua terza ammonizione, d\'ora in poi non potrai più fare richieste per un mese.';
+            if (user.premium) {
+                response_message = `❌ Abbiamo già postato la serie: <b>'${titolo}'</>`
+                User.update(user_chat_id, { ammonizioni: 0 });
             } else {
-                user.ammonizioni += 1;
-                response_message = `❌ Abbiamo già postato la serie: <b>'${titolo}'</>\n\n`
-                    + '‼️<b>AMMONITO</>‼️\nControlla se la serie è presente sul canale prima di richiederla.\n\n' 
-                    + '<i>Alla terza ammonizione ti verrà revocata per un mese la possibilità di fare richieste.</>\n\n'
-                    + `<i>Ammonizioni attuali: ${user.ammonizioni}/3</>`;
+                if (user.ammonizioni == 2) {
+                    user.ammonizioni += 1;
+                    response_message = `❌ Abbiamo già postato la serie: <b>'${titolo}'</>\n\n`
+                        + '‼️<b>AMMONITO</>‼️\n\nQuesta è la tua terza ammonizione, d\'ora in poi non potrai più fare richieste per un mese.';
+                } else {
+                    user.ammonizioni += 1;
+                    response_message = `❌ Abbiamo già postato la serie: <b>'${titolo}'</>\n\n`
+                        + '‼️<b>AMMONITO</>‼️\nControlla se la serie è presente sul canale prima di richiederla.\n\n' 
+                        + '<i>Alla terza ammonizione ti verrà revocata per un mese la possibilità di fare richieste.</>\n\n'
+                        + `<i>Ammonizioni attuali: ${user.ammonizioni}/3</>`;
+                }
+                User.update(user_chat_id, { ammonizioni: user.ammonizioni });
             }
             request_result = '❌ Risposta <b>\'GIÀ POSTATA\'</> da: ';
-            User.update(user_chat_id, { ammonizioni: user.ammonizioni });
             break;
         case 'mai_uscita':
             response_message = `❌ La tua richiesta per la serie <b>'${titolo}'</> è stata <b>RIFIUTATA</>.`
-                + ` La serie non è mai uscita in italia.\n\n`
-            if (user.ammonizioni == 2) {
-                user.ammonizioni += 1;
-                response_message += '‼️<b>AMMONITO</>‼️\n\nQuesta è la tua terza ammonizione, d\'ora in poi non potrai più fare richieste per un mese.';
+                + ` La serie non è mai uscita in italia.`
+            if (user.premium) {
+                User.update(user_chat_id, { ammonizioni: 0 });
             } else {
-                user.ammonizioni += 1;
-                response_message += '‼️<b>AMMONITO</>‼️\nSul nostro canale è vietato richiedere serie mai uscite in Italia.\n\n'
-                    + '<i>Alla terza ammonizione ti verrà revocata per un mese la possibilità di fare richieste.</>\n\n'
-                    + `<i>Ammonizioni attuali: ${user.ammonizioni}/3</>`;
+                if (user.ammonizioni == 2) {
+                    user.ammonizioni += 1;
+                    response_message += '\n\n‼️<b>AMMONITO</>‼️\n\nQuesta è la tua terza ammonizione, d\'ora in poi non potrai più fare richieste per un mese.';
+                } else {
+                    user.ammonizioni += 1;
+                    response_message += '\n\n‼️<b>AMMONITO</>‼️\nSul nostro canale è vietato richiedere serie mai uscite in Italia.\n\n'
+                        + '<i>Alla terza ammonizione ti verrà revocata per un mese la possibilità di fare richieste.</>\n\n'
+                        + `<i>Ammonizioni attuali: ${user.ammonizioni}/3</>`;
+                }
+                User.update(user_chat_id, { ammonizioni: user.ammonizioni });
             }
             request_result = '❌ Risposta <b>\'MAI USCITO\'</> da: ';
-            User.update(user_chat_id, { ammonizioni: user.ammonizioni });
             break;
         case 'in_corso':
             response_message = `❌ La tua richiesta per la serie <b>'${titolo}'</> è stata <b>RIFIUTATA</>.`
                 + ` La serie è ancora in corso.\n\n`
-            if (user.ammonizioni == 2) {
-                user.ammonizioni += 1;
-                response_message += '‼️<b>AMMONITO</>‼️\n\nQuesta è la tua terza ammonizione, d\'ora in poi non potrai più fare richieste per un mese.';
+            if (user.premium) {
+                User.update(user_chat_id, { ammonizioni: 0 });
             } else {
-                user.ammonizioni += 1;
-                response_message += '‼️<b>AMMONITO</>‼️\nSul nostro canale è vietato richiedere serie ancora in corso.\n\n'
-                    + '<i>Alla terza ammonizione ti verrà revocata per un mese la possibilità di fare richieste.</>\n\n'
-                    + `<i>Ammonizioni attuali: ${user.ammonizioni}/3</>`;
+                if (user.ammonizioni == 2) {
+                    user.ammonizioni += 1;
+                    response_message += '‼️<b>AMMONITO</>‼️\n\nQuesta è la tua terza ammonizione, d\'ora in poi non potrai più fare richieste per un mese.';
+                } else {
+                    user.ammonizioni += 1;
+                    response_message += '‼️<b>AMMONITO</>‼️\nSul nostro canale è vietato richiedere serie ancora in corso.\n\n'
+                        + '<i>Alla terza ammonizione ti verrà revocata per un mese la possibilità di fare richieste.</>\n\n'
+                        + `<i>Ammonizioni attuali: ${user.ammonizioni}/3</>`;
+                }
+                User.update(user_chat_id, { ammonizioni: user.ammonizioni });
             }
             request_result = '❌ Risposta <b>\'IN CORSO\'</> da: ';
-            User.update(user_chat_id, { ammonizioni: user.ammonizioni });
             break;
         case 'errata': response_message = `❌ La tua richiesta per la serie <b>'${titolo}'</> è stata <b>RIFIUTATA</>.\n`
             + `La richiesta è stata effettuata in modo errato. Leggi bene le regole riguardanti le richieste.`;

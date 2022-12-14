@@ -976,54 +976,71 @@ exports.risposta_richiesta = async (ctx, risposta) => {
                 request_result = '❌ Risposta <b>\'FILM NON TROVATO\'</> da: ';
                 break;
             case 'postato': 
-                if (user.ammonizioni == 2) {
-                    user.ammonizioni += 1;
-                    response_message = `❌ Abbiamo già postato il film: <b>'${titolo}'</>\n\n`
-                        + '‼️<b>AMMONITO</>‼️\n\nQuesta è la tua terza ammonizione, d\'ora in poi non potrai più fare richieste per un mese.';
+                if (user.premium) {
+                    response_message = `❌ Abbiamo già postato il film: <b>'${titolo}'</>`
+                    User.update(user_chat_id, { ammonizioni: 0 });
                 } else {
-                    user.ammonizioni += 1;
-                    response_message = `❌ Abbiamo già postato il film: <b>'${titolo}'</>\n\n`
-                        + '‼️<b>AMMONITO</>‼️\nControlla se il film è presente sul canale prima di richiederlo.\n\n' 
-                        + '<i>Alla terza ammonizione ti verrà revocata per un mese la possibilità di fare richieste.</>\n\n'
-                        + `<i>Ammonizioni attuali: ${user.ammonizioni}/3</>`;
+                    if (user.ammonizioni == 2) {
+                        user.ammonizioni += 1;
+                        response_message = `❌ Abbiamo già postato il film: <b>'${titolo}'</>\n\n`
+                            + '‼️<b>AMMONITO</>‼️\n\nQuesta è la tua terza ammonizione, d\'ora in poi non potrai più fare richieste per un mese.';
+                    } else {
+                        user.ammonizioni += 1;
+                        response_message = `❌ Abbiamo già postato il film: <b>'${titolo}'</>\n\n`
+                            + '‼️<b>AMMONITO</>‼️\nControlla se il film è presente sul canale prima di richiederlo.\n\n' 
+                            + '<i>Alla terza ammonizione ti verrà revocata per un mese la possibilità di fare richieste.</>\n\n'
+                            + `<i>Ammonizioni attuali: ${user.ammonizioni}/3</>`;
+                    }
+                    User.update(user_chat_id, { ammonizioni: user.ammonizioni });
                 }
                 request_result = '❌ Risposta <b>\'GIÀ POSTATO\'</> da: ';
-                User.update(user_chat_id, { ammonizioni: user.ammonizioni });
                 break;
             case 'mai_uscito':
-                if (user.ammonizioni == 2) {
-                    user.ammonizioni += 1;
+                if (user.premium) {
                     response_message = `❌ La tua richiesta per il film <b>'${titolo}'</> è stata <b>RIFIUTATA</>.`
-                        + ` Il film non è mai uscito in italia.\n\n`
-                        + '‼️<b>AMMONITO</>‼️\n\nQuesta è la tua terza ammonizione, d\'ora in poi non potrai più fare richieste per un mese.';
+                        + ` Il film non è mai uscito in italia.`
+                    User.update(user_chat_id, { ammonizioni: 0 });
                 } else {
-                    user.ammonizioni += 1;
-                    response_message = `❌ La tua richiesta per il film <b>'${titolo}'</> è stata <b>RIFIUTATA</>.`
-                    + ` Il film non è mai uscito in italia.\n\n`
-                    + '‼️<b>AMMONITO</>‼️\nSul nostro canale è vietato richiedere film mai usciti in Italia.\n'
-                    + 'Se ti interessa il film SUB-ITA usa l\'apposito bottone nel menù delle richieste.\n\n'
-                    + '<i>Alla terza ammonizione ti verrà revocata per un mese la possibilità di fare richieste.</>\n\n'
-                    + `<i>Ammonizioni attuali: ${user.ammonizioni}/3</>`;
+                    if (user.ammonizioni == 2) {
+                        user.ammonizioni += 1;
+                        response_message = `❌ La tua richiesta per il film <b>'${titolo}'</> è stata <b>RIFIUTATA</>.`
+                            + ` Il film non è mai uscito in italia.\n\n`
+                            + '‼️<b>AMMONITO</>‼️\n\nQuesta è la tua terza ammonizione, d\'ora in poi non potrai più fare richieste per un mese.';
+                    } else {
+                        user.ammonizioni += 1;
+                        response_message = `❌ La tua richiesta per il film <b>'${titolo}'</> è stata <b>RIFIUTATA</>.`
+                        + ` Il film non è mai uscito in italia.\n\n`
+                        + '‼️<b>AMMONITO</>‼️\nSul nostro canale è vietato richiedere film mai usciti in Italia.\n'
+                        + 'Se ti interessa il film SUB-ITA usa l\'apposito bottone nel menù delle richieste.\n\n'
+                        + '<i>Alla terza ammonizione ti verrà revocata per un mese la possibilità di fare richieste.</>\n\n'
+                        + `<i>Ammonizioni attuali: ${user.ammonizioni}/3</>`;
+                    }
+                    User.update(user_chat_id, { ammonizioni: user.ammonizioni });
                 }
                 request_result = '❌ Risposta <b>\'MAI USCITO\'</> da: ';
-                User.update(user_chat_id, { ammonizioni: user.ammonizioni });
                 break;
             case 'appena_uscito':
-                if (user.ammonizioni == 2) {
-                    user.ammonizioni += 1;
+                if (user.premium) {
                     response_message = `❌ La tua richiesta per il film <b>'${titolo}'</> è stata <b>RIFIUTATA</>.`
-                        + ` Il film è appena uscito in italia.\n\n`
-                        + '‼️<b>AMMONITO</>‼️\n\nQuesta è la tua terza ammonizione, d\'ora in poi non potrai più fare richieste per un mese.';
+                            + ` Il film è appena uscito in italia.`
+                    User.update(user_chat_id, { ammonizioni: 0 });
                 } else {
-                    user.ammonizioni += 1;
-                    response_message = `❌ La tua richiesta per il film <b>'${titolo}'</> è stata <b>RIFIUTATA</>.`
-                    + ` Il film è appena uscito in italia.\n\n`
-                    + '‼️<b>AMMONITO</>‼️\nSul nostro canale è vietato richiedere film usciti da meno di 2 mesi in Italia.\n\n'
-                    + '<i>Alla terza ammonizione ti verrà revocata per un mese la possibilità di fare richieste.</>\n\n'
-                    + `<i>Ammonizioni attuali: ${user.ammonizioni}/3</>`;
+                    if (user.ammonizioni == 2) {
+                        user.ammonizioni += 1;
+                        response_message = `❌ La tua richiesta per il film <b>'${titolo}'</> è stata <b>RIFIUTATA</>.`
+                            + ` Il film è appena uscito in italia.\n\n`
+                            + '‼️<b>AMMONITO</>‼️\n\nQuesta è la tua terza ammonizione, d\'ora in poi non potrai più fare richieste per un mese.';
+                    } else {
+                        user.ammonizioni += 1;
+                        response_message = `❌ La tua richiesta per il film <b>'${titolo}'</> è stata <b>RIFIUTATA</>.`
+                        + ` Il film è appena uscito in italia.\n\n`
+                        + '‼️<b>AMMONITO</>‼️\nSul nostro canale è vietato richiedere film usciti da meno di 2 mesi in Italia.\n\n'
+                        + '<i>Alla terza ammonizione ti verrà revocata per un mese la possibilità di fare richieste.</>\n\n'
+                        + `<i>Ammonizioni attuali: ${user.ammonizioni}/3</>`;
+                    }
+                    User.update(user_chat_id, { ammonizioni: user.ammonizioni });
                 }
                 request_result = '❌ Risposta <b>\'APPENA USCITO\'</> da: ';
-                User.update(user_chat_id, { ammonizioni: user.ammonizioni });
                 break;
             case 'errata': response_message = `❌ La tua richiesta per il film <b>'${titolo}'</> è stata <b>RIFIUTATA</>.\n`
                 + `La richiesta è stata effettuata in modo errato. Leggi bene le regole riguardanti le richieste.`;
@@ -1060,9 +1077,6 @@ exports.risposta_richiesta = async (ctx, risposta) => {
                     console.error(err);
                 });
             }
-        }
-        if (user.premium) {
-            User.update(user_chat_id, { ammonizioni: 0 });
         }
     } catch (err) {
         console.log("ERRORE RISPOSTA RICHIESTA FILM");

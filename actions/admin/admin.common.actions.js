@@ -467,7 +467,7 @@ exports.pannello_rimuovi_premium_richiesta_id = async (ctx) => {
 
 // pannello di risposta alla rimozione di un utente premium
 exports.pannello_rimuovi_premium = async (ctx) => {
-    User.update(ctx.update.message.text, { premium: false }).then(async (user) => {
+    User.update(ctx.update.message.text, { premium: false, data_premium_mensile: null }).then(async (user) => {
         if (user) {
             await ctx.reply('🌟 *UTENTI PREMIUM* 🌟\n\n✅L\'utente è stato *RIMOSSO DA PREMIUM* correttamente.',
                 { parse_mode: 'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
@@ -492,6 +492,54 @@ exports.pannello_rimuovi_premium = async (ctx) => {
     try {
         ctx.deleteMessage(ctx.update.message.message_id).catch((err) => {
             console.log("ERRORE DELETE MESSAGE RIMUOVI PREMIUM");
+            console.error(err);
+        });
+    } catch (err) {
+        console.error(err);
+    }
+    ctx.session.tipoRicerca = '';
+}
+
+/*        AGGIUNGI PREMIUM MENSILE          */
+
+// pannello in cui viene chiesto di aggiungere un utente premium mensile
+exports.pannello_aggiungi_premium_mensile_richiesta_id = async (ctx) => {
+    await ctx.reply('🌟 *UTENTI PREMIUM* 🌟\n\nScrivi l\'id o l\'username dell\'utente che vuoi *PROMUOVERE A PREMIUM PER UN MESE*...',
+        { parse_mode: 'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
+    await ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
+        console.log("ERRORE DELETE MESSAGE PANNELLO AGGIUNGI PREMIUM");
+        console.error(err);
+    });
+    ctx.session.tipoRicerca = 'AGGIUNGI_PREMIUM';
+}
+
+// pannello di risposta all'aggiunta di un utente premium mensile
+exports.pannello_aggiungi_premium_mensile = async (ctx) => {
+    User.update(ctx.update.message.text, { premium: false, data_premium_mensile: new Date() }).then(async (user) => {
+        if (user) {
+            await ctx.reply('🌟 *UTENTI PREMIUM* 🌟\n\n✅L\'utente è stato *PROMOSSO A PREMIUM PER UN MESE* correttamente.',
+                { parse_mode: 'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
+        } else {
+            await ctx.reply('❌ *ERRORE* ❌\n\nL\'utente non è stato trovato. Riprovare.',
+                { parse_mode:'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
+        }
+    }).catch(async (err) => {
+        console.error("Aggiungi premium error: ", err);
+        await ctx.reply('❌ *ERRORE* ❌\n\nSi è verificato un errore. Riprovare.',
+            { parse_mode:'Markdown', reply_markup: {inline_keyboard: [[Buttons.indietro('PANNELLO_UTENTI_PREMIUM')]]} });
+    })
+    const id_messaggio = ctx.update.message.message_id - 1;
+    try {
+        await ctx.deleteMessage(id_messaggio).catch((err) => {
+            console.log("ERRORE DELETE MESSAGE AGGIUNGI PREMIUM");
+            console.error(err);
+        });
+    } catch (err) {
+        console.error(err);
+    }
+    try {
+        ctx.deleteMessage(ctx.update.message.message_id).catch((err) => {
+            console.log("ERRORE DELETE MESSAGE AGGIUNGI PREMIUM");
             console.error(err);
         });
     } catch (err) {
