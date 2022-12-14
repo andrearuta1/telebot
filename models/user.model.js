@@ -10,7 +10,8 @@ module.exports = (mongoose) => {
 			chat_id: Number,
 			username: String,
 			banned: Boolean,
-			premium: Boolean
+			premium: Boolean,
+			data_premium_mensile: Date
 		},
 		{ timestamps: true }
 	);
