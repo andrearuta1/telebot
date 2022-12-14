@@ -92,6 +92,7 @@ module.exports = {
 
     pannello_utenti_premium: {
         inline_keyboard: [
+            [ { text: '➕ Aggiungi utente premium MENSILE ➕', callback_data: 'PANNELLO_AGGIUNGI_PREMIUM_MENSILE'}],
             [ { text: '➕ Aggiungi utente premium ➕', callback_data: 'PANNELLO_AGGIUNGI_PREMIUM'}],
             [ { text: '❌ Rimuovi utente premium ❌', callback_data: 'PANNELLO_RIMUOVI_PREMIUM'}],
             [ Buttons.indietro('PANNELLO_GESTIONE_UTENTI') ]
