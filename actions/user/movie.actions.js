@@ -632,7 +632,7 @@ exports.pannello_richieste = async (ctx) => {
             console.error(err);
         }
     } else {
-        if (user.premium) {
+        if (User.isPremium(user)) {
             await ctx.reply('⚠️ *REGOLAMENTO RICHIESTE* ⚠️\n\n'
                 + "⛔ NON SI RICHIEDONO FILM APPENA USCITI AL CINEMA (devono passare 2 mesi prima di richiederli perché noi puntiamo sulla QUALITÀ).\n"
                 + "⛔  Il titolo di ciò che cerchi deve essere corretto oltre che essere già uscito in Italia.\n"
@@ -700,7 +700,7 @@ exports.pannello_richieste = async (ctx) => {
 exports.pannello_richiesta_film_SUB_ITA = async (ctx) => {
     const richieste_aperte = await Stato_richieste.requests_state();
     const user = await User.findOne(ctx.from.id);
-    if (user?.premium) {
+    if (User.isPremium(user)) {
         ctx.session.title = '';
             ctx.session.tipoRicerca = 'RICHIESTA_FILM';
             await ctx.reply('📨 <b>RICHIESTA FILM</> 📨\n\nScrivi il titolo del film che vuoi richiedere:',
@@ -758,7 +758,7 @@ exports.pannello_richiesta_film_SUB_ITA = async (ctx) => {
 exports.pannello_richiesta_film = async (ctx) => {
     const richieste_aperte = await Stato_richieste.requests_state();
     const user = await User.findOne(ctx.from.id);
-    if (user?.premium) {
+    if (User.isPremium(user)) {
         ctx.session.title = '';
             ctx.session.tipoRicerca = 'RICHIESTA_FILM';
             await ctx.reply('📨 <b>RICHIESTA FILM</> 📨\n\nScrivi il titolo del film che vuoi richiedere:',
@@ -815,7 +815,7 @@ exports.pannello_risultati_richiesta_film = async (ctx) => {
     
     const richieste_aperte = await Stato_richieste.requests_state();
     const user = await User.findOne(ctx.from.id);
-    if (richieste_aperte || user?.premium) {
+    if (richieste_aperte || User.isPremium(user)) {
         try {
             if (!ctx.session.title) {
                 ctx.session.title = ctx.update.message.text;
@@ -917,7 +917,7 @@ exports.pannello_locandina_richiesta_film = async (ctx) => {
     
     const richieste_aperte = await Stato_richieste.requests_state();
     const user = await User.findOne(ctx.from.id);
-    if (richieste_aperte || user?.premium) {
+    if (richieste_aperte || User.isPremium(user)) {
         // se il film è salvato nella sessione, non rifaccio la ricerca
         
         const movieId = ctx.update.callback_query.data.split(' ')[1];
@@ -967,7 +967,7 @@ exports.pannello_richiesta_inviata = async (ctx, film_non_presente) => {
     const richieste_aperte = await Stato_richieste.requests_state();
     try {
         const user = await User.findOne(ctx.from.id);
-        if (richieste_aperte || user?.premium) {
+        if (richieste_aperte || User.isPremium(user)) {
             const username = ctx.from.username ? '@' + ctx.from.username : '';
             const inizio_message = 'Richiesta da: ' + username + ' [' + ctx.from.id + ']\n\n';
             if (film_non_presente) {
