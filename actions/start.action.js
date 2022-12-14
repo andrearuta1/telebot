@@ -23,19 +23,22 @@ exports.start = async (ctx) => {
         }
         // cerca utente nel db, se non è presente lo crea
         User.create(ctx.from.id, ctx.from.first_name, ctx.from.username);
-        const user = User.findOne(ctx.from.id);
+        const user = await User.findOne(ctx.from.id);
         
         let premiumStatus = "";
-        
-        console.log("chat id: ", ctx.from.id)
-        console.log("user: ", user)
+       
         if (user && User.isPremium(user)) {
             if (user.premium) {
                 premiumStatus = `\n🌟Utente <b>PREMIUM</>\n`;
             } else {
                 const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
-                premiumStatus = `\n🌟Utente <b>PREMIUM</> fino a: ${utente.data_data_premium_mensile.toLocaleString('it-IT', options)}\n`;
+                premiumStatus = `\n🌟Utente <b>PREMIUM</> fino a: ${utente.data_premium_mensile.toLocaleString('it-IT', options)}\n`;
             }
+        } else if (user.data_premium_mensile) {
+            premiumStatus = `\n🌟Abbonamento PREMIUM <b>SCADUTO</> il: ${(new Date(utente.data_premium_mensile.getTime() + (31 * 86400000))).toLocaleString('it-IT', options)}\n`
+                + 'RINNOVA l\'abbonamento per poter effettuare richieste illimitate\n';
+        } else {
+            premiumStatus = '\n🌟Diventa utente <b>PREMIUM</> per poter effettuare richieste illimitate\n';
         }
     
         await ctx.reply(
