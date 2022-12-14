@@ -1,6 +1,13 @@
 const db = require('../models');
 const User = db.user;
 
+exports.isPremium = (user) => {
+	if (user.premium || (user.data_premium_mensile && (new Date().getTime() - (30 * 86,400,000) > user.data_premium_mensile.getTime()))) {
+		return true;
+	}
+	return false;
+}
+
 // Crea e salva un nuovo utente
 exports.create = (chat_id, nome, username) => {
 	if (!chat_id) { return; }
