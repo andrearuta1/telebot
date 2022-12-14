@@ -510,7 +510,7 @@ exports.pannello_aggiungi_premium_mensile_richiesta_id = async (ctx) => {
         console.log("ERRORE DELETE MESSAGE PANNELLO AGGIUNGI PREMIUM");
         console.error(err);
     });
-    ctx.session.tipoRicerca = 'AGGIUNGI_PREMIUM';
+    ctx.session.tipoRicerca = 'AGGIUNGI_PREMIUM_MENSILE';
 }
 
 // pannello di risposta all'aggiunta di un utente premium mensile
