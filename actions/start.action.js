@@ -27,6 +27,8 @@ exports.start = async (ctx) => {
         
         let premiumStatus = "";
         
+        console.log("chat id: ", ctx.from.id)
+        console.log("user: ", user)
         if (user && User.isPremium(user)) {
             if (user.premium) {
                 premiumStatus = `\n🌟Utente <b>PREMIUM</>\n`;
