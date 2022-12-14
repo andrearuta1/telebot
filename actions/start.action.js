@@ -26,12 +26,12 @@ exports.start = async (ctx) => {
         const user = await User.findOne(ctx.from.id);
         
         let premiumStatus = "";
+        const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
        
         if (user && User.isPremium(user)) {
             if (user.premium) {
                 premiumStatus = `\n🌟Utente <b>PREMIUM</>\n`;
             } else if (user.data_premium_mensile) {
-                const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
                 premiumStatus = `\n🌟Utente <b>PREMIUM</> fino a: ${user.data_premium_mensile.toLocaleString('it-IT', options)}\n`;
             }
         } else if (user.data_premium_mensile) {
