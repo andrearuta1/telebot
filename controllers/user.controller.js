@@ -2,10 +2,7 @@ const db = require('../models');
 const User = db.user;
 
 exports.isPremium = (user) => {
-	if (user.premium || (user.data_premium_mensile && ((new Date().getTime() - (30 * 86,400,000)) > user.data_premium_mensile.getTime()))) {
-		console.log("new date: ", (new Date().getTime() - (30 * 86,400,000)));
-		console.log("user date: ", user.data_premium_mensile);
-		console.log("getTime: ", user.data_premium_mensile.getTime());
+	if (user.premium || (user.data_premium_mensile && ((new Date().getTime() - (31 * 86,400,000)) < user.data_premium_mensile.getTime()))) {
 		return true;
 	}
 	return false;
