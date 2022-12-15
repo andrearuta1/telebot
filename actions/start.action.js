@@ -32,10 +32,10 @@ exports.start = async (ctx) => {
             if (user.premium) {
                 premiumStatus = `\n🌟Utente <b>PREMIUM</>\n`;
             } else if (user.data_premium_mensile) {
-                premiumStatus = `\n🌟Utente <b>PREMIUM</> fino a: ${user.data_premium_mensile.toLocaleString('it-IT', options)}\n`;
+                premiumStatus = `\n🌟Utente <b>PREMIUM</> fino a: ${(new Date(user.data_premium_mensile.getTime() + (31 * 86400000))).toLocaleString('it-IT', options)}\n`;
             }
         } else if (user.data_premium_mensile) {
-            premiumStatus = `\n🌟Abbonamento PREMIUM <b>SCADUTO</> il: ${(new Date(user.data_premium_mensile.getTime() + (31 * 86400000))).toLocaleString('it-IT', options)}\n`
+            premiumStatus = `\n🌟Abbonamento PREMIUM <b>SCADUTO</> ${(new Date(user.data_premium_mensile.getTime() + (31 * 86400000))).toLocaleString('it-IT', options)}\n`
                 + 'RINNOVA l\'abbonamento per poter effettuare richieste illimitate\n';
         } else {
             premiumStatus = '\n🌟Diventa utente <b>PREMIUM</> per poter effettuare richieste illimitate\n';
