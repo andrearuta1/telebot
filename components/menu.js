@@ -30,6 +30,7 @@ module.exports = {
                 { text: '🤝 Sponsor 🤝', callback_data: 'PANNELLO_SPONSOR' },
                 { text: '🎁 Donazioni 🎁', callback_data: 'PANNELLO_DONAZIONI' }
             ],
+            [{ text: '🌟 PREMIUM 🌟', callback_data: 'PANNELLO_PREMIUM' }],
             [{ text: '📽 Discussioni Film e Serie TV 🎬', url: 'https://t.me/gliamicidelparchetto' }],
             [{ text: '⁉️ Ho bisogno di aiuto ⁉️', callback_data: 'PANNELLO_AIUTO' }]
         ]
@@ -216,7 +217,23 @@ module.exports = {
 
     /*          UTENTI - HOME           */
 
-        pannello_benvenuto: {
+    pannello_benvenuto: {
+        "one_time_keyboard": true,
+        inline_keyboard: [
+            [ 
+                Buttons.pannello_film,
+                Buttons.pannello_serie_tv
+            ],
+            [ Buttons.pannello_richieste ],
+            [{ text: '🤝 Sponsor 🤝', callback_data: 'PANNELLO_SPONSOR' }],
+            [{ text: '🎁 Donazioni 🎁', callback_data: 'PANNELLO_DONAZIONI' }],
+            [{ text: '🌟 PREMIUM 🌟', callback_data: 'PANNELLO_PREMIUM' }],
+            [{ text: '📽 Discussioni Film e Serie TV 🎬', url: 'https://t.me/gliamicidelparchetto' }],
+            [{ text: '⁉️ Ho bisogno di aiuto ⁉️', callback_data: 'PANNELLO_AIUTO' }]
+        ]
+    },
+
+    pannello_benvenuto_premium: {
         "one_time_keyboard": true,
         inline_keyboard: [
             [ 
