@@ -46,7 +46,7 @@ exports.start = async (ctx) => {
             + premiumStatus + `\n↘️ SELEZIONA UN'OPZIONE: ↙️`,
             {
                 parse_mode: 'HTML',
-                reply_markup: isAdmin ? Menu.pannello_benvenuto_admin : Menu.pannello_benvenuto
+                reply_markup: isAdmin ? Menu.pannello_benvenuto_admin : (User.isPremium(user) ? Menu.pannello_benvenuto_premium : Menu.pannello_benvenuto)
             }
         ).catch((err) => {
             console.log("ERRORE REPLY BENVENUTO");
