@@ -88,6 +88,28 @@ module.exports = (bot) => {
             });
     });
 
+    /*          PREMIUM         */
+
+    bot.action('PANNELLO_PREMIUM', async (ctx) => {
+        try {
+            await ctx.deleteMessage(ctx.update.callback_query.message.id);
+        } catch (err) {
+            console.error(err);
+        }
+        ctx.reply('🌟 <b>DIVENTA UTENTE PREMIUM</> 🌟\n\n'
+            + 'Gli utenti premium hanno la possibilità di inviare richieste illimitate anche quando le richieste sono chiuse e' 
+            + ' sono immuni da eventuali ammonizioni.\n\n'
+            + '<i>Per maggiori informazioni contattaci: @Contatto_Admin_SerietvfilmsBOT</>',
+            { parse_mode: 'HTML', reply_markup: Menu.pannello_donazioni });
+    }).catch((err, ctx) => {
+        console.error(err);
+        ctx.reply( '‼️ *ERRORE* ‼️\n\nCi scusiamo, si è verificato un errore. Riprova.',
+            { parse_mode: 'Markdown', reply_markup: { inline_keyboard : [[ Buttons.pannello_HOME ]]}}).catch((err) => {
+                console.log("ERRORE REPLY ERRORE COMMON ROUTES");
+                console.error(err);
+            });
+    });
+
     /*          AIUTO         */
 
     bot.action('PANNELLO_AIUTO', async (ctx) => {
