@@ -81,7 +81,7 @@ bot.use(async (ctx, next) => {
 							[
 								[{ text: italia_film, url: 'https://t.me/+tbrbIoop3Pw1MWVk' }],
 								[{ text: italia_serie, url: 'https://t.me/+oojmtbBi4EE4OTdk' }],
-								[{ text: italia_news, url: 'https://t.me/+A9Ot-00Nhos5ZTVk' }],
+								[{ text: italia_news, url: 'https://t.me/+2dfejHYEz3MzNjU0' }],
 								[{ text: '🔓 SBLOCCA BOT 🔓', callback_data: 'PANNELLO_BENVENUTO' }]
 							]
 						}
