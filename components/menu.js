@@ -297,7 +297,7 @@ module.exports = {
             [ Buttons.pannello_ricerca_serie_titolo, Buttons.pannello_ricerca_serie_genere ],
             [ Buttons.pannello_ricerca_serie_lettera, Buttons.pannello_ricerca_serie_anno ],
             [ Buttons.pannello_risultati_serie_più_votate, Buttons.pannello_risultati_serie_random ],
-            [{ text: '☁️ Serie SKY original ☁️', url: 'https://t.me/IlBrucoMaledetto' }],
+            [{ text: '☁️ Serie SKY original ☁️', url: 'https://t.me/+ISuJGd9NBeRjYzg0' }],
             [ Buttons.indietro('PANNELLO_BENVENUTO') ]
         ]
     },
