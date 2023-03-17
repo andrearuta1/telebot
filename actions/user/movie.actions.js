@@ -686,7 +686,7 @@ exports.pannello_richieste = async (ctx) => {
                         console.error(err);
                     }
                 } else {
-                    ctx.answerCbQuery("‼️ Al momento le richieste sono chiuse. ‼️", {show_alert: true}).catch((err) => { console.error(err); });
+                    ctx.answerCbQuery("‼️ Richieste permesse solo agli utenti premium, per diventarlo scrivi a @Contatto_Admin_SerietvfilmsBOT ‼️", {show_alert: true}).catch((err) => { console.error(err); });
                 }
             }
         }
@@ -741,7 +741,7 @@ exports.pannello_richiesta_film_SUB_ITA = async (ctx) => {
         }
     } else {
         try {
-            ctx.reply( '‼️ *RICHIESTE CHIUSE* ‼️\n\nAl momento le richieste sono chiuse.',
+            ctx.reply( '‼️ *RICHIESTE CHIUSE* ‼️\n\nRichieste permesse solo agli utenti premium, per diventarlo scrivi a @Contatto_Admin_SerietvfilmsBOT',
                 { parse_mode: 'Markdown', reply_markup: { inline_keyboard : [[ Buttons.pannello_HOME ]]}});
             azzeraSession();
             ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
@@ -797,7 +797,7 @@ exports.pannello_richiesta_film = async (ctx) => {
         }
     } else {
         try {
-            ctx.reply( '‼️ *RICHIESTE CHIUSE* ‼️\n\nAl momento le richieste sono chiuse.',
+            ctx.reply( '‼️ *RICHIESTE CHIUSE* ‼️\n\nRichieste permesse solo agli utenti premium, per diventarlo scrivi a @Contatto_Admin_SerietvfilmsBOT',
                 { parse_mode: 'Markdown', reply_markup: { inline_keyboard : [[ Buttons.pannello_HOME ]]}});
             azzeraSession();
             ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
@@ -899,7 +899,7 @@ exports.pannello_risultati_richiesta_film = async (ctx) => {
         }
     } else {
         try {
-            ctx.reply( '‼️ *RICHIESTE CHIUSE* ‼️\n\nAl momento le richieste sono chiuse.',
+            ctx.reply( '‼️ *RICHIESTE CHIUSE* ‼️\n\nRichieste permesse solo agli utenti premium, per diventarlo scrivi a @Contatto_Admin_SerietvfilmsBOT',
                 { parse_mode: 'Markdown', reply_markup: { inline_keyboard : [[ Buttons.pannello_HOME ]]}});
             azzeraSession();
             ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
@@ -949,7 +949,7 @@ exports.pannello_locandina_richiesta_film = async (ctx) => {
         }
     } else {
         try {
-            ctx.reply( '‼️ *RICHIESTE CHIUSE* ‼️\n\nAl momento le richieste sono chiuse.',
+            ctx.reply( '‼️ *RICHIESTE CHIUSE* ‼️\n\nRichieste permesse solo agli utenti premium, per diventarlo scrivi a @Contatto_Admin_SerietvfilmsBOT',
                 { parse_mode: 'Markdown', reply_markup: { inline_keyboard : [[ Buttons.pannello_HOME ]]}});
             azzeraSession();
             ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
@@ -1039,7 +1039,7 @@ exports.pannello_richiesta_inviata = async (ctx, film_non_presente) => {
             ctx.session.tipoRicerca = '';
         } else {
             try {
-                ctx.reply( '‼️ *RICHIESTE CHIUSE* ‼️\n\nAl momento le richieste sono chiuse.',
+                ctx.reply( '‼️ *RICHIESTE CHIUSE* ‼️\n\nRichieste permesse solo agli utenti premium, per diventarlo scrivi a @Contatto_Admin_SerietvfilmsBOT',
                     { parse_mode: 'Markdown', reply_markup: { inline_keyboard : [[ Buttons.pannello_HOME ]]}});
                 azzeraSession();
                 ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
