@@ -11,7 +11,11 @@ module.exports = (mongoose) => {
 			username: String,
 			banned: Boolean,
 			premium: Boolean,
-			data_premium_mensile: Date
+			data_premium_mensile: Date,
+			lista_film_visti: [{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'movies'
+			    }]
 		},
 		{ timestamps: true }
 	);
