@@ -521,6 +521,8 @@ exports.pannello_risultati_film_random = async (ctx) => {
 exports.locandina_film = async (ctx) => {
     const movieId = ctx.update.callback_query.data.split(' ')[1];
 
+    ctx.session.movieId = movieId;
+
     let back_button = '';
     const callback_data = ctx.update.callback_query.data.split(' ')[0];
     switch (callback_data) {
@@ -602,6 +604,22 @@ exports.pannello_files_film = async(ctx) => {
             );
             contatore_limite_messaggi += 1;
         }
+        // controlla se il film è presente nella lista di film visti dell'utente
+        // se non è presente aggiunge l'id del film in questione alla lista
+        // e poi salva l'aggiornamento sul db
+        try {
+            const user = await User.findOne(ctx.from.id);
+            if (!user.lista_film_visti) {
+                user.lista_film_visti = [];
+            }
+            if (!user.lista_film_visti.includes()) {
+                const lista_film_aggiornata = user.lista_film_visti;
+                lista_film_aggiornata.push(ctx.session.movieId);
+                User.update(ctx.from.id, { lista_film_visti: lista_film_aggiornata })
+            }
+        } catch (err) {
+            console.error("ERROR UPDATING LISTA_FILM_VISTI: ", err);
+        }
         // cancella la locandina
         try {
             ctx.deleteMessage(ctx.update.callback_query.message.id).catch((err) => {
@@ -614,6 +632,7 @@ exports.pannello_files_film = async(ctx) => {
         ctx.session.title = '';
         ctx.session.files_id = '';
         ctx.session.currentPage = 0;
+        ctx.session.movieId = '';
     } catch (err) {
         console.error(err);
     }
