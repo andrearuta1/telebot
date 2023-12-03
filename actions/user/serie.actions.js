@@ -555,16 +555,32 @@ exports.locandina_serie = async (ctx) => {
         if (serie_TMDB) {
             if (serie_TMDB.seasons[serie.season_index].poster_path) {
                 const image_url = 'https://image.tmdb.org/t/p/w500' + serie_TMDB.seasons[serie.season_index].poster_path;
-                await ctx.replyWithPhoto( { url: image_url },
-                    { caption: creaCaptionSeason(serie_TMDB, serie.season_index), parse_mode: 'HTML',
-                        reply_markup: Menu.pannello_dettagli_serie(back_button) }
-                )
+                try {
+                    await ctx.replyWithPhoto( { url: image_url },
+                        { caption: creaCaptionSeason(serie_TMDB, serie.season_index), parse_mode: 'HTML',
+                            reply_markup: Menu.pannello_dettagli_serie(back_button) }
+                    )
+                } catch (err) {
+                    console.error("ERROR IN SEND LOCANDINA SERIE: ", err);
+                    // in caso ci sia un errore nell'invio del messaggio con la locandina costruita da tmdb invia la locandina presente nel gruppo
+                    await ctx.telegram.copyMessage( ctx.update.callback_query.message.chat.id, SERIE_CHANNEL_ID, serie.id_locandina,
+                        { reply_markup: Menu.pannello_dettagli_serie(back_button) }
+                    );
+                }
             } else if (serie_TMDB.poster_path) {
                 const image_url = 'https://image.tmdb.org/t/p/w500' + serie_TMDB.poster_path;
-                await ctx.replyWithPhoto( { url: image_url },
-                    { caption: creaCaptionSeason(serie_TMDB, serie.season_index), parse_mode: 'HTML',
-                        reply_markup: Menu.pannello_dettagli_serie(back_button) }
-                )
+                try {
+                    await ctx.replyWithPhoto( { url: image_url },
+                        { caption: creaCaptionSeason(serie_TMDB, serie.season_index), parse_mode: 'HTML',
+                            reply_markup: Menu.pannello_dettagli_serie(back_button) }
+                    )
+                } catch (err) {
+                    console.error("ERROR IN SEND LOCANDINA SERIE: ", err);
+                    // in caso ci sia un errore nell'invio del messaggio con la locandina costruita da tmdb invia la locandina presente nel gruppo
+                    await ctx.telegram.copyMessage( ctx.update.callback_query.message.chat.id, SERIE_CHANNEL_ID, serie.id_locandina,
+                        { reply_markup: Menu.pannello_dettagli_serie(back_button) }
+                    );
+                }
             } else {
                 await ctx.reply( creaCaptionSeason(serie_TMDB, serie.season_index), { parse_mode: 'HTML',
                         reply_markup: Menu.pannello_dettagli_serie(back_button) }
