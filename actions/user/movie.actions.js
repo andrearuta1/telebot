@@ -550,10 +550,18 @@ exports.locandina_film = async (ctx) => {
         if (movie_TMDB && movie_TMDB.poster_path) {
             const image_url = 'https://image.tmdb.org/t/p/w500' + movie_TMDB.poster_path;
             console.log("Image url: ", image_url);
-            await ctx.replyWithPhoto( { url: image_url },
-                { caption: creaCaption(movie_TMDB), parse_mode: 'HTML',
-                    reply_markup: Menu.pannello_dettagli_film(back_button) }
-            )
+            try {
+                await ctx.replyWithPhoto( { url: image_url },
+                    { caption: creaCaption(movie_TMDB), parse_mode: 'HTML',
+                        reply_markup: Menu.pannello_dettagli_film(back_button) }
+                )
+            } catch (err) {
+                console.error("ERROR IN SEND LOCANDINA: ", err);
+                // in caso ci sia un errore nell'invio del messaggio con la locandina costruita da tmdb invia la locandina presente nel gruppo
+                await ctx.telegram.copyMessage( ctx.update.callback_query.message.chat.id, MOVIE_CHANNEL_ID, movie.id_locandina,
+                    { parse_mode: 'HTML', reply_markup: Menu.pannello_dettagli_film(back_button) }
+                );
+            }
         } else {
             // inoltra una copia del messaggio ( chat target, chat sorgente, id messaggio)
             await ctx.telegram.copyMessage( ctx.update.callback_query.message.chat.id, MOVIE_CHANNEL_ID, movie.id_locandina,
