@@ -549,6 +549,7 @@ exports.locandina_film = async (ctx) => {
         const movie_TMDB = movie.TMDB_id ? await Moviedb.searchMovieById(movie.TMDB_id) : '';
         if (movie_TMDB && movie_TMDB.poster_path) {
             const image_url = 'https://image.tmdb.org/t/p/w500' + movie_TMDB.poster_path;
+            console.log("Image url: ", image_url);
             await ctx.replyWithPhoto( { url: image_url },
                 { caption: creaCaption(movie_TMDB), parse_mode: 'HTML',
                     reply_markup: Menu.pannello_dettagli_film(back_button) }
