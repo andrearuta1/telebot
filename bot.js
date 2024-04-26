@@ -79,8 +79,8 @@ bot.use(async (ctx, next) => {
 						parse_mode: 'Markdown',
 						reply_markup: { inline_keyboard: 
 							[
-								[{ text: italia_film, url: 'https://t.me/+tbrbIoop3Pw1MWVk' }],
-								[{ text: italia_serie, url: 'https://t.me/+oojmtbBi4EE4OTdk' }],
+								[{ text: italia_film, url: 'https://t.me/+NCXmN_IPpgkwZWNk' }],
+								[{ text: italia_serie, url: 'https://t.me/+xQIwhuy9fckyYzc0' }],
 								[{ text: italia_news, url: 'https://t.me/+2dfejHYEz3MzNjU0' }],
 								[{ text: '🔓 SBLOCCA BOT 🔓', callback_data: 'PANNELLO_BENVENUTO' }]
 							]
