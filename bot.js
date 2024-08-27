@@ -154,7 +154,7 @@ db.mongoose.connect(db.url, {
 
 bot.launch({
 	webhook: {
-	  domain: 'https://telebot-7eu1.onrender.com',
+	  domain: 'https://telebot-1-te9p.onrender.com',
 	  port: process.env.PORT || 3000
 	}
 });
